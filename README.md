@@ -1,2 +1,45 @@
-# ttDjangoTreeMenu
-ttDjangoTreeMenu
+# Tree Menu Django App
+
+Простое Django-приложение для древовидного меню, полностью отвечающее ТЗ:
+
+* **Меню через template tag**
+* **DB-based & Admin-editable**
+* **Активный пункт по URL**
+* **Несколько меню на странице** (по имени)
+* **1 SQL-запрос на отрисовку каждого меню**
+
+## Установка
+
+1. Скопировать папку `menu/` в свой проект
+2. Добавить `menu` в `INSTALLED_APPS`
+3. Убедиться, что в `TEMPLATES` включено `APP_DIRS: True` и есть `django.template.context_processors.request`
+4. Выполнить миграции:
+
+   ```bash
+   python manage.py migrate
+   ```
+
+## Использование
+
+1. В админке создать `Menu` и связанные `MenuItem`
+2. В шаблонах:
+
+   ```django
+   {% load menu_tags %}
+   {% draw_menu 'animal_menu' %}
+   ```
+3. Определить URL-конфигурацию и view, как описано в примере, чтобы пункты вели на ваши страницы.
+
+## Тестирование
+
+В проекте есть тест, который проверяет, что при рендеринге меню Django делает **ровно один** запрос к базе данных:
+
+```bash
+python manage.py test menu.tests.MenuQueryCountTest
+```
+
+Этот тест гарантирует, что производительность отвечает требованию «1 запрос на меню».
+
+## Лицензия
+
+MIT
